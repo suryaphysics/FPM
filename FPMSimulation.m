@@ -1,13 +1,14 @@
+%%% Code by Surya Kamal to provide proof of concept for Fourier pytchographic microscopy (FPM) %%% 
 
-
-
-inputImage = imread('cameraman.tif');
-numberOfMasks = 9;
-radius = 64;
+%%% Initial parameters %%%
+inputImage = imread('cameraman.tif'); % Input image
+numberOfMasks = 9; % Number of masks
+radius = 64; % Size of the mask
 center = zeros(numberOfMasks,1); % Array to store the Center of the masks in (x + iy) form
 center(1,1) = 0+0i; % Center coordinates of first mask
 
 count = 2;
+
 for theta=0:pi/4:7*(pi/4)   
     center(count,1) = radius*exp(1i*theta); % Generating the coordinates of center of the masks
     count = count + 1;  
@@ -20,14 +21,13 @@ lowRes = zeros(x,y,numberOfMasks);
 
 for i=1:numberOfMasks
     mask(:,:,i) = sqrt((X-(x/2+real(center(i,1)))).^2 + (Y-(y/2+imag(center(i,1)))).^2) < radius; % Storing masks
-	imshow(mask(:,:,i),[]);
-	lowRes(:,:,i)= abs(fftshift(ifft2(ifftshift((fftshift(fft2(ifftshift(inputImage)))).*mask(:,:,i))))); % Generating LR
-	imshow(lowRes(:,:,i),[]);
-
+    imshow(mask(:,:,i),[]);
+    lowRes(:,:,i)= abs(fftshift(ifft2(ifftshift((fftshift(fft2(ifftshift(inputImage)))).*mask(:,:,i))))); % Generating LR
+    imshow(lowRes(:,:,i),[]);
 end
 
 
-initialSpect = fftshift(fft2(ifftshift(lowRes(:,:,9)))); % broadSpectrum
+initialSpect = fftshift(fft2(ifftshift(lowRes(:,:,1)))); % broadSpectrum, can begin with any image.
 initialNew = initialSpect;
 c=1;
 % FPM Algorithm
@@ -51,6 +51,6 @@ while c<2  % Repeating the whole process 2 times
     final = abs(fftshift(ifft2(ifftshift(initialNew))));   
 end
 
- figure;imshow(log(abs(initialNew)),[]);
- figure;imshowpair(lowRes(:,:,1),final,'montage');
- figure;imshow(angle(fftshift(ifft2(ifftshift(initialNew)))));
+ figure;imshow(log(abs(initialNew)),[]); title('Final spectrum');
+ figure;imshowpair(lowRes(:,:,1),final,'montage'); title('Low Res Input (left)    High Res Output (right)');
+ figure;imshow(angle(fftshift(ifft2(ifftshift(initialNew)))));title('Recovered information')
