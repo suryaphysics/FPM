@@ -1,5 +1,5 @@
 # FPM
-This is Matlab simulation to provide the proof of concept for Fourier ptychographic microscopy (FPM). 
+This is Matlab simulation to provide the proof of concept for [Fourier ptychographic microscopy (FPM)](http://www.nature.com/nphoton/journal/v7/n9/full/nphoton.2013.187.html). 
 
 Input : cameraman image
 
