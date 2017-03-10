@@ -1,4 +1,6 @@
-%%% Code by Surya Kamal to provide proof of concept for Fourier pytchographic microscopy (FPM) %%% 
+%%% Code by Surya Kamal to provide proof of concept for Fourier pytchographic microscopy (FPM) %%%
+%%% This code can be used by any one who wants to explore ptychogrpahy %%% 
+
 
 %%% Initial parameters %%%
 inputImage = imread('cameraman.tif'); % Input image
